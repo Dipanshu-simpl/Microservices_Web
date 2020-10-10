@@ -13,6 +13,8 @@ public class UserDAOService {
 	
 	private static List<User> users=new ArrayList<>();
 	
+	private static int userCount=3;
+	
 	
 	static {
 		
@@ -44,5 +46,19 @@ public class UserDAOService {
 		}
 		return null;
 	}
+	
+	//create a new user/saving a new user
+	public User save(User user)
+	{
+		if(user.getId()==0)
+		{
+			user.setId(++userCount);
+		}
+		users.add(user);
+		return user;
+	}
+	
+	
+
 
 }
