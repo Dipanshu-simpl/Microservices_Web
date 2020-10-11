@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.Myproject.rest.dao.UserDAOService;
 import com.Myproject.rest.entities.User;
+import com.Myproject.rest.exception.UserNotFoundException;
 
 @RestController
 public class UserController {
@@ -32,9 +34,16 @@ public class UserController {
 	
 	
 	@GetMapping("/users/{id}")
-	public User retrieveUser(@PathVariable int id)
+	public User retrieveUser(@PathVariable int id) throws UserNotFoundException
 	{
-		return userDAOservice.findById(id);
+		
+		User user=userDAOservice.findById(id);
+		if(user==null)
+		{
+			throw new UserNotFoundException("id ---"+id);
+		}
+		
+		return user;
 	}
 	
 	
@@ -55,4 +64,18 @@ public class UserController {
 		
 	}
 	
+	// Deleting an user
+	
+	
+	@DeleteMapping("/users/{id}")
+	public void deleteUser(@PathVariable int id) throws UserNotFoundException
+	{
+		User user=userDAOservice.deleteById(id);
+		if(user ==null)
+		{
+			throw new UserNotFoundException("id--"+id);
+			
+		}
+		
+	}
 }
