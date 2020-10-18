@@ -1,11 +1,17 @@
 package com.Myproject.rest.controllers;
 
+
+
+//import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +49,15 @@ public class UserController {
 		if(user==null)
 		{
 			throw new UserNotFoundException("id ---"+id);
-		}
+		}		
 		
+		EntityModel<User> coll=new EntityModel<User> (user);
+		
+		/*ControllerLinkBuilder link=ControllerLinkBuilder.methodOn(this.getClass()).retriveAllUsers();
+		
+		coll.add(link.withRel("al-users"));*/
 		return user;
+	
 	}
 	
 	
